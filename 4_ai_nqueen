@@ -1,55 +1,63 @@
 import java.util.Arrays;
 class GraphColoring {
- private static final int NO_COLOR = 0;
- public static boolean isSafe(int[][] graph, int[] color, int vertex, int c, int n) {
- for (int i = 0; i < n; i++) {
- if (graph[vertex][i] == 1 && c == color[i]) {
- return false;
- }
- }
- return true;
- }
- public static boolean graphColoringUtil(int[][] graph, int[] color, int vertex,
-int m, int n) {
- if (vertex == n) {
- return true;
- }
- for (int c = 1; c <= m; c++) {
- if (isSafe(graph, color, vertex, c, n)) {
- color[vertex] = c;
- if (graphColoringUtil(graph, color, vertex + 1, m, n)) {
- return true;
- }
- color[vertex] = NO_COLOR; // Backtrack
- }
- }
- return false;
- }
- public static int[] graphColoring(int[][] graph, int m) {
- int n = graph.length;
- int[] color = new int[n];
- Arrays.fill(color, NO_COLOR);
- if (graphColoringUtil(graph, color, 0, m, n)) {
- return color;
- } else {
- return null; // No valid coloring possible
- }
- }
- public static void main(String[] args) {
- // Example usage:
- int[][] graph = { { 0, 1, 1, 1 },
- { 1, 0, 1, 0 },
- { 1, 1, 0, 1 },
- { 1, 0, 1, 0 } };
- int m = 3; // Number of colors
- int[] color = graphColoring(graph, m);
- if (color != null) {
- System.out.println("Graph coloring:");
- for (int i = 0; i < graph.length; i++) {
- System.out.println("Vertex " + i + ": Color " + color[i]);
- }
- } else {
- System.out.println("No valid coloring possible");
- }
- }
+
+    private static final int NO_COLOR = 0;
+
+
+    public static boolean isSafe(int[][] graph, int[] color, int vertex, int c, int n) { for (int i = 0; i < n; i++) {
+        if (graph[vertex][i] == 1 && c == color[i]) { return false;
+        }
+    }
+        return true;
+    }
+
+
+    public static boolean graphColoringUtil(int[][] graph, int[] color, int vertex, int m, int n) {
+        if (vertex == n) {
+            return true;
+        }
+
+
+        for (int c = 1; c <= m; c++) {
+            if (isSafe(graph, color, vertex, c, n)) { color[vertex] = c;
+
+                if (graphColoringUtil(graph, color, vertex + 1, m, n)) { return true;
+                }
+                color[vertex] = NO_COLOR; // Backtrack
+            }
+        }
+
+
+        return false;
+    }
+
+
+    public static int[] graphColoring(int[][] graph, int m) { int n = graph.length;
+        int[] color = new int[n]; Arrays.fill(color, NO_COLOR);
+
+        if (graphColoringUtil(graph, color, 0, m, n)) { return color;
+        } else {
+            return null; // No valid coloring possible
+        }
+    }
+
+
+    public static void main(String[] args) {
+// Example usage:
+        int[][] graph = { { 0, 1, 1, 1 },
+                { 1, 0, 1, 0 },
+                { 1, 1, 0, 1 },
+                { 1, 0, 1, 0 } };
+        int m = 3; // Number of colors
+
+        int[] color = graphColoring(graph, m);
+
+
+        if (color != null) { System.out.println("Graph coloring:"); for (int i = 0; i < graph.length; i++) {
+            System.out.println("Vertex " + i + ": Color " + color[i]);
+        }
+        } else {
+            System.out.println("No valid coloring possible");
+        }
+    }
 }
