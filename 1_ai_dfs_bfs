@@ -1,77 +1,72 @@
 import java.util.*;
-/*We start by defining a Graph class with two instance variables: V for the
-number of vertices in the graph, and adj for an array of linked lists to store the
-adjacency list of each vertex.*/
-public class Graph {
- private int V;
- private LinkedList<Integer>[] adj;
- public Graph(int v) {
- V = v;
- adj = new LinkedList[v];
- for (int i = 0; i < v; i++) {
- adj[i] = new LinkedList<>();
- }
- }
-/*The addEdge method is used to add an edge between two vertices, by adding
-the second vertex to the adjacency list of the first vertex, and vice versa (since
-the graph is undirected).*/
- public void addEdge(int v, int w) {
- adj[v].add(w);
- adj[w].add(v);
- }
-/*The dfs method implements the DFS algorithm recursively. It starts by
-marking the current vertex as visited and printing it. Then, it recursively calls
-itself for all unvisited neighbors of the current vertex.*/
- public void dfs(int v, boolean[] visited) {
- visited[v] = true;
- System.out.print(v + " ");
- for (int i : adj[v]) {
- if (!visited[i]) {
- dfs(i, visited);
- }
- }
- }
-/*The bfs method implements the BFS algorithm using a queue. It starts by
-marking the starting vertex as visited and adding it to the queue. Then, it loops
-through the queue, removing the front element and printing it, and adding all
-unvisited neighbors of the removed element to the queue.*/
- public void bfs(int s) {
- boolean[] visited = new boolean[V];
- LinkedList<Integer> queue = new LinkedList<>();
- visited[s] = true;
- queue.add(s);
- while (queue.size() != 0) {
- s = queue.poll();
- System.out.print(s + " ");
- Iterator<Integer> i = adj[s].listIterator();
- while (i.hasNext()) {
- int n = i.next();
- if (!visited[n]) {
- visited[n] = true;
- queue.add(n);
- }
- }
- }
- }
-/*In the main method, we create a new Graph object and add edges to it. Then,
-we initialize a boolean array to keep track of visited vertices and call the dfs
-method for each unvisited vertex. Finally, we call the bfs method starting from
-vertex 0.*/
- public static void main(String[] args) {
- Graph g = new Graph(4);
- g.addEdge(0, 1);
- g.addEdge(0, 2);
- g.addEdge(1, 2);
- g.addEdge(2, 3);
- boolean[] visited = new boolean[g.V];
- System.out.print("DFS Traversal: ");
- for (int i = 0; i < g.V; i++) {
- if (!visited[i]) {
- g.dfs(i, visited);
- }
- }
- System.out.println();
- System.out.print("BFS Traversal: ");
- g.bfs(0);
- }
-}}
+
+
+/*We start by defining a Graph class with two instance variables: V for the number of vertices in the graph, and adj for an array of linked lists to store the adjacency list of each vertex.*/
+
+public class Graph { private int V;
+    private LinkedList<Integer>[] adj;
+
+
+    public Graph(int v) { V = v;
+        adj = new LinkedList[v]; for (int i = 0; i < v; i++) {
+            adj[i] = new LinkedList<>();
+        }
+    }
+    /*The addEdge method is used to add an edge between two vertices, by adding the second vertex to the adjacency list of the first vertex, and vice versa (since the graph is undirected).*/
+    public void addEdge(int v, int w) { adj[v].add(w);
+        adj[w].add(v);
+
+    }
+
+
+    /*The dfs method implements the DFS algorithm recursively. It starts by marking the current vertex as visited and printing it. Then, it recursively calls itself for all unvisited neighbors of the current vertex.*/
+
+    public void dfs(int v, boolean[] visited) {
+        visited[v] = true;
+        System.out.print(v + " ");
+        for (int i : adj[v]) {
+            if (!visited[i]) { dfs(i, visited);
+            }
+        }
+    }
+
+
+    /*The bfs method implements the BFS algorithm using a queue. It starts by marking the starting vertex as visited and adding it to the queue. Then, it loops through the queue, removing the front element and printing it, and adding all unvisited neighbors of the removed element to the queue.*/
+
+    public void bfs(int s) {
+        boolean[] visited = new boolean[V]; LinkedList<Integer> queue = new LinkedList<>(); visited[s] = true;
+        queue.add(s);
+        while (queue.size() != 0) { s = queue.poll(); System.out.print(s + " ");
+
+            Iterator<Integer> i = adj[s].listIterator(); while (i.hasNext()) {
+                int n = i.next(); if (!visited[n]) {
+                    visited[n] = true; queue.add(n);
+                }
+            }
+        }
+    }
+
+
+    /*In the main method, we create a new Graph object and add edges to it. Then, we initialize a boolean array to keep track of visited vertices and call the dfs method for each unvisited vertex. Finally, we call the bfs method starting from vertex 0.*/
+
+    public static void main(String[] args) { Graph g = new Graph(4);
+
+        g.addEdge(0, 1);
+        g.addEdge(0, 2);
+        g.addEdge(1, 2);
+        g.addEdge(2, 3);
+
+
+        boolean[] visited = new boolean[g.V]; System.out.print("DFS Traversal: "); for (int i = 0; i < g.V; i++) {
+            if (!visited[i]) { g.dfs(i, visited);
+
+            }
+        }
+
+
+        System.out.println();
+
+
+        System.out.print("BFS Traversal: "); g.bfs(0);
+    }
+}
