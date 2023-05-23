@@ -91,3 +91,34 @@ if __name__ == '__main__':
  sys.exit(1)
  print("Test ok!")
  sys.exit()
+--------------------------------------------------------------------
+pip install pycryptodome
+
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
+
+def generate_key():
+    return get_random_bytes(16)  # 16 bytes = 128 bits (AES-128)
+
+def encrypt(plaintext, key):
+    cipher = AES.new(key, AES.MODE_CBC)
+    ciphertext = cipher.encrypt(pad(plaintext, AES.block_size))
+    return cipher.iv + ciphertext
+
+def decrypt(ciphertext, key):
+    iv = ciphertext[:AES.block_size]
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = unpad(cipher.decrypt(ciphertext[AES.block_size:]), AES.block_size)
+    return plaintext
+
+# Example usage:
+key = generate_key()
+plaintext = b'This is a secret message'
+print("Plaintext:", plaintext)
+
+encrypted_data = encrypt(plaintext, key)
+print("Encrypted data:", encrypted_data)
+
+decrypted_data = decrypt(encrypted_data, key)
+print("Decrypted data:", decrypted_data)
